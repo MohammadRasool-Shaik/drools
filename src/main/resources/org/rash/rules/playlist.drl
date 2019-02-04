@@ -1,0 +1,45 @@
+package org.rash.rules
+import org.rash.drools.model.playlist.Artist
+import org.rash.drools.model.playlist.Song
+import org.rash.drools.model.playlist.PlayList
+
+rule "artist name"
+when artist:Artist(name=="Farhan")
+then System.out.println("Artist is "+artist.getName());
+end
+
+rule "artist name and last name"
+when artist:Artist(name=="Arman",lastname=="Malik")
+then
+    System.out.println("Artist full name is"+artist);
+end
+
+rule "song genre type"
+when song:Song(genreType==Song.Genre.POP)
+then  System.out.println("Song genre type "+song);
+end
+
+rule "In song Artist name is Arman warning"
+when song:Song(artists:artists)
+     Artist(name=="Arman") from artists
+then System.out.println("Arman song is "+song);
+end
+
+rule "Warn when we have a Playlist with less than one song"
+when playlist:PlayList(songs.size()<2)
+then System.out.println("Playlist name is "+playlist.getName()+" and the size is "+playlist.getSongs().size());
+end
+
+rule "Warn when we have a POP songs inside a playlist"
+when playlist:PlayList(songs:songs)
+    song:Song(genreType==Song.Genre.POP) from songs
+then System.out.println(playlist.getName()+" Playlist having pop song "+song);
+end
+
+rule "Warn when we have a JAZZ songs and Artist name something inside a playlist"
+when playlist:PlayList(songs:songs)
+    song:Song(artists:artists,genreType==Song.Genre.JAZZ)  from songs
+    Artist(name=="Sonu") from artists
+then
+    System.out.println(playlist.getName()+" Playlist having JAZZ song "+song);
+end

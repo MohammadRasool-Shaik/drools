@@ -1,0 +1,7 @@
+package org.rash.rules
+import org.rash.drools.model.employee.Department
+import org.rash.drools.model.employee.Employee
+
+rule ""
+when
+then  end
